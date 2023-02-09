@@ -58,7 +58,7 @@ public class Territory {
                 }
             }
             //TODO make functionality for choosing type of villager
-
+            this.villagers.add(new Knight(fname, lname, age));
         }
     }
 }
