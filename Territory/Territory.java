@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import Villagers.*;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Territory {
     private String name;
     private List<Villager> villagers = new ArrayList<Villager>();
+    // number of diffent types of villigers
+    private int numVillTypes = 3;
 
     public Territory() {
         Scanner scanner = new Scanner(System.in);
@@ -57,8 +60,23 @@ public class Territory {
                     System.out.print("Please enter a valid number for age, between 0 and 120");
                 }
             }
-            //TODO make functionality for choosing type of villager
-            this.villagers.add(new Knight(fname, lname, age));
+            Random rand = new Random();
+            int age = rand.nextInt(120);
+            // randomly assign characters to be Knights, Farmers or Blacksmiths
+            int selection = rand.nextInt(numVillTypes);
+            switch (selection) {
+                case 0:
+                    this.villagers.add(new Knight(fname, lname, age));
+                    break;
+                case 1:
+                    this.villagers.add(new Blacksmith(fname, lname, age));
+                    break;
+                case 2:
+                    this.villagers.add(new Farmer(fname, lname, age));
+                    break;
+            }
+            
         }
+        scanner.close();
     }
 }
