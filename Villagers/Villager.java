@@ -29,6 +29,9 @@ public abstract class Villager {
     public int getHealth() {
         return health;
     }
+    public boolean isAlive() {
+        return alive;
+    }
     //setters
     public void setFirstName(String firstname) {
         FirstName = firstname;
