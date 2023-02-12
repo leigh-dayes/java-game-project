@@ -4,7 +4,7 @@ public class ArcherTower extends Building {
     
 
     public ArcherTower(int length, int width, boolean locked) {
-        super(length, width, locked);
+        super(locked);
         //TODO Auto-generated constructor stub
     }
     

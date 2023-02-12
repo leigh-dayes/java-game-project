@@ -1,13 +1,18 @@
 package Buildings;
+
+import Villagers.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Building {
     
     private int length;
     private int width;
     private boolean locked;
+    private List<Villager> residents = new ArrayList<Villager>();
 
-    public Building(int length, int width, boolean locked) {
-        this.length = length;
-        this.width = width;
+
+    public Building(boolean locked) {
         this.locked = locked;
     }
     public void setLength(int l) {
@@ -16,11 +21,17 @@ public abstract class Building {
     public void setWidth(int w) {
         width = w;
     }
+    public void setResidents(List<Villager> res) {
+        residents = res;
+    }
     public int getLength() {
         return length;
     }
     public int getWidth() {
         return width;
+    }
+    public List<Villager> getResidents() {
+        return residents;
     }
     public boolean isLocked() {
         return locked;
