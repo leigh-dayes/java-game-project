@@ -12,10 +12,10 @@ public class Knight extends Villager {
     public Knight(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
         generateStrength();
-        selectArmour();
         selectWeapon();
+        selectArmour();
         System.out.println("\n** Knight Created **\n");
-        printInfo();
+        //printInfo();
     }
     //getters
     public Weapons getWeapon() {
@@ -52,7 +52,6 @@ public class Knight extends Villager {
         }
         System.out.print("Selection: ");
         String weap = scanner.nextLine();
-        scanner.close();
         for (Weapons w: Weapons.values()){
             if (weap.equalsIgnoreCase(w.toString())){
                 weapon = w;
@@ -65,6 +64,7 @@ public class Knight extends Villager {
             System.out.println("Oops we dont have " + weap + ", please choose a valid weapon i.e. Sword");
             selectWeapon();
         }
+        //scanner.close();
     }
     /**
      * A function for selecting a knights armour
@@ -81,11 +81,10 @@ public class Knight extends Villager {
         }
         System.out.print("Selection: ");
         String arm = scanner.nextLine();
-        scanner.close();
         for (Armour a: Armour.values()){
             if (arm.equalsIgnoreCase(a.toString())){
                 armour = a;
-                System.out.println(getFirstName() + " has choosen " + arm);
+                System.out.println(getFirstName() + " has choosen " + arm + " armour!");
                 validArmour = true;
                 break;
             }
@@ -94,6 +93,7 @@ public class Knight extends Villager {
             System.out.println("Oops we dont have " + arm + ", please choose valid amour i.e. leather");
             selectArmour();
         }
+        // scanner.close();
     }
     /**
      * A function for printing out knights details
@@ -111,6 +111,6 @@ public class Knight extends Villager {
      */
     public void generateStrength() {
         Random rand = new Random();
-        strength = rand.nextInt(1, 100);
+        strength = rand.nextInt(1, 10);
     }
 }

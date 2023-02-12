@@ -1,7 +1,9 @@
 import Territory.Territory;
+import Villagers.*;
+import Buildings.*;
 
 public class Main {
     public static void main(String[] args) {
-        Territory newWorld = new Territory();
+        Territory territory = new Territory();
     }
 }

@@ -48,12 +48,14 @@ public class Territory {
             System.out.print("Please enter the Last Name of villager number " + i + ": ");
             String lname = scanner.nextLine();
             boolean validAge = false;
+            int villAge = 0;
             do {
-                System.out.print("how what is the age of the villager?: ");
+                System.out.print("what is the age of the villager?: ");
                 try {
-                    int villAge = scanner.nextInt();
+                    villAge = scanner.nextInt();
                     if (villAge > 0 && villAge < 121) {
                         validAge = true;
+                        scanner.nextLine();
                     }
                     else {
                         System.out.println("Please enter a valid age between 0 and 120");
@@ -64,19 +66,21 @@ public class Territory {
                     scanner.nextLine();
                 }
             } while(!validAge);
-            Random rand = new Random();
-            int age = rand.nextInt(120);
             // randomly assign characters to be Knights, Farmers or Blacksmiths
+            Random rand = new Random();
             int selection = rand.nextInt(numVillTypes);
             switch (selection) {
                 case 0:
-                    this.villagers.add(new Knight(fname, lname, age));
+                    System.out.println(fname + " " + lname + " has been allocated the role of Knight!\n");
+                    this.villagers.add(new Knight(fname, lname, villAge));
                     break;
                 case 1:
-                    this.villagers.add(new Blacksmith(fname, lname, age));
+                    System.out.println(fname + " " + lname + " has been allocated the role of Blacksmith!\n");
+                    this.villagers.add(new Blacksmith(fname, lname, villAge));
                     break;
                 case 2:
-                    this.villagers.add(new Farmer(fname, lname, age));
+                    System.out.println(fname + " " + lname + " has been allocated the role of Farmer!\n");
+                    this.villagers.add(new Farmer(fname, lname, villAge));
                     break;
             }
             
