@@ -1,9 +1,11 @@
 package Buildings;
 public class Farm extends Building {
 
-    public Farm(int length, int width, boolean locked) {
+    public Farm(boolean locked) {
         super(locked);
-        //TODO Auto-generated constructor stub
+        setLength(7);
+        setWidth(7);
+        setHitPoints(10);
     }
     
 }

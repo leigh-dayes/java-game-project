@@ -1,9 +1,11 @@
 package Buildings;
 public class Castle extends Building {
 
-    public Castle(int length, int width, boolean locked) {
+    public Castle(boolean locked) {
         super(locked);
-        //TODO Auto-generated constructor stub
+        setLength(5);
+        setWidth(5);
+        setHitPoints(200);
     }
     
 }

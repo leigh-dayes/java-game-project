@@ -6,11 +6,13 @@ import java.util.List;
 import Villagers.*;
 import java.util.Scanner;
 import java.util.Random;
+import Buildings.*;
 
 public class Territory {
     private String name;
     private List<Villager> villagers = new ArrayList<Villager>();
     private NamesList names = new NamesList();
+    private List<Building> buildings = new ArrayList<Building>();
     // number of diffent types of villigers
     private int numVillTypes = 4;
     private int maxAge = 120;
@@ -100,6 +102,13 @@ public class Territory {
             
         }
         //scanner.close();
-        
+        //create buildings, 1 castle, 2 farms, 1 blacksmithshop, 2 houses and an archer tower
+        this.buildings.add(new Castle(true));
+        this.buildings.add(new Farm(false));
+        this.buildings.add(new Farm(false));
+        this.buildings.add(new BlackSmithShop(true));
+        this.buildings.add(new ArcherTower(true));
+        this.buildings.add(new House(true));
+        this.buildings.add(new House(true));
     }
 }

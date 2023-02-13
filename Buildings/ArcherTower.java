@@ -10,7 +10,7 @@ public class ArcherTower extends Building {
         super(locked);
         setWidth(1);
         setLength(1);
-
+        setHitPoints(25);
     }
     
 }

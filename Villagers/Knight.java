@@ -8,13 +8,15 @@ public class Knight extends Villager {
     private Weapons weapon;
     private int strength;
     private Armour armour;
+    private int numWeapons = 5;
+    private int numArmour = 3;
 
     public Knight(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
         generateStrength();
-        selectWeapon();
-        selectArmour();
-        System.out.println("\n** Knight Created **\n");
+        setWeapon();
+        setArmour();
+        //System.out.println("\n** Knight Created **\n");
         //printInfo();
     }
     //getters
@@ -29,13 +31,44 @@ public class Knight extends Villager {
     }
     //setters
     public void setWeapon() {
-        selectWeapon();
+        Random rand = new Random();
+        int selection = rand.nextInt(numWeapons);
+        switch(selection) {
+            case 0:
+                weapon = Weapons.Club;
+                break;
+            case 1:
+                weapon = Weapons.Dagger;
+                break;
+            case 2:
+                weapon = Weapons.Lance;
+                break;
+            case 3:
+                weapon = Weapons.Mace;
+                break;
+            case 4:
+                weapon = Weapons.Sword;
+                break;
+        }
+
     }
     public void setStrength(int strength) {
         this.strength = strength;
     }
     public void setArmour() {
-        selectArmour();
+        Random rand = new Random();
+        int selection = rand.nextInt(numArmour);
+        switch(selection) {
+            case 0:
+                armour = Armour.leather;
+                break;
+            case 1:
+                armour = Armour.steel;
+                break;
+            case 2:
+                armour = Armour.none;
+                break;
+        }
     }
     /**
      * A function for selecting a knights weapon
