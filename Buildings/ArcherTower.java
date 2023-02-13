@@ -1,11 +1,16 @@
 package Buildings;
 
+import Villagers.*;
+import java.util.Random;
+
 public class ArcherTower extends Building {
     
 
-    public ArcherTower(int length, int width, boolean locked) {
+    public ArcherTower(boolean locked) {
         super(locked);
-        //TODO Auto-generated constructor stub
+        setWidth(1);
+        setLength(1);
+
     }
     
 }

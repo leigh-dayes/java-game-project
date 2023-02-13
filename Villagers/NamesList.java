@@ -82,7 +82,7 @@ public class NamesList {
     public void newName() {
         Random rand = new Random();
         int namesLength = names.length;
-        firstname = names[rand.nextInt(namesLength+1)];
-        lastname = names[rand.nextInt(namesLength+1)];
+        firstname = names[rand.nextInt(namesLength)];
+        lastname = names[rand.nextInt(namesLength)];
     }
 }

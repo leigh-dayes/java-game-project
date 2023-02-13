@@ -10,8 +10,10 @@ import java.util.Random;
 public class Territory {
     private String name;
     private List<Villager> villagers = new ArrayList<Villager>();
+    private NamesList names = new NamesList();
     // number of diffent types of villigers
-    private int numVillTypes = 3;
+    private int numVillTypes = 4;
+    private int maxAge = 120;
 
     public Territory() {
         Scanner scanner = new Scanner(System.in);
@@ -41,8 +43,16 @@ public class Territory {
      * A function to populate a new territory
      */
     private void populateTerritory(int numVillagers){
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
+        Random rand = new Random();
         for (int i = 1; i <= numVillagers; i++) {
+            // automatic assignment of villagers
+            names.newName();
+            String fname = names.getFirstName();
+            String lname = names.getLastName();
+            int villAge = rand.nextInt(maxAge+1);
+            //Manual assignmnet of villagers
+            /*
             System.out.print("Please enter the First Name of villager number " + i + ": ");
             String fname = scanner.nextLine();
             System.out.print("Please enter the Last Name of villager number " + i + ": ");
@@ -66,8 +76,8 @@ public class Territory {
                     scanner.nextLine();
                 }
             } while(!validAge);
+            */
             // randomly assign characters to be Knights, Farmers or Blacksmiths
-            Random rand = new Random();
             int selection = rand.nextInt(numVillTypes);
             switch (selection) {
                 case 0:
@@ -82,9 +92,14 @@ public class Territory {
                     System.out.println(fname + " " + lname + " has been allocated the role of Farmer!\n");
                     this.villagers.add(new Farmer(fname, lname, villAge));
                     break;
+                case 3:
+                    System.out.println(fname + " " + lname + " has been allocated the role of Archer!\n");
+                    this.villagers.add(new Archer(fname, lname, villAge));
+                    break;
             }
             
         }
-        scanner.close();
+        //scanner.close();
+        
     }
 }

@@ -7,6 +7,7 @@ public abstract class Villager {
     private int Age;
     private int health;
     private boolean alive;
+    private int maxAge = 120;
     //methods
     //constructer
     public Villager(String FirstName, String LastName, int Age) {
@@ -28,6 +29,9 @@ public abstract class Villager {
     }
     public int getHealth() {
         return health;
+    }
+    public int getMaxAge() {
+        return maxAge;
     }
     public boolean isAlive() {
         return alive;
