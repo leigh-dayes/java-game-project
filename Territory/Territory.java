@@ -14,8 +14,8 @@ public class Territory {
     private NamesList names = new NamesList();
     private List<Building> buildings = new ArrayList<Building>();
     // number of diffent types of villigers
-    private int numVillTypes = 4;
-    private int maxAge = 120;
+    static final int numVillTypes = 4;
+    static final int maxAge = 120;
 
     public Territory() {
         Scanner scanner = new Scanner(System.in);
@@ -40,6 +40,11 @@ public class Territory {
             }
         } while(!validNum);
         scanner.close();
+    }
+    // constructor for creating the enemy village
+    public Territory(String name, int numVillagers) {
+        this.name = name;
+        populateTerritory(numVillagers);
     }
     /**
      * A function to populate a new territory
@@ -83,19 +88,19 @@ public class Territory {
             int selection = rand.nextInt(numVillTypes);
             switch (selection) {
                 case 0:
-                    System.out.println(fname + " " + lname + " has been allocated the role of Knight!\n");
+                    //System.out.println(fname + " " + lname + " has been allocated the role of Knight!\n");
                     this.villagers.add(new Knight(fname, lname, villAge));
                     break;
                 case 1:
-                    System.out.println(fname + " " + lname + " has been allocated the role of Blacksmith!\n");
+                    //System.out.println(fname + " " + lname + " has been allocated the role of Blacksmith!\n");
                     this.villagers.add(new Blacksmith(fname, lname, villAge));
                     break;
                 case 2:
-                    System.out.println(fname + " " + lname + " has been allocated the role of Farmer!\n");
+                    //System.out.println(fname + " " + lname + " has been allocated the role of Farmer!\n");
                     this.villagers.add(new Farmer(fname, lname, villAge));
                     break;
                 case 3:
-                    System.out.println(fname + " " + lname + " has been allocated the role of Archer!\n");
+                    //System.out.println(fname + " " + lname + " has been allocated the role of Archer!\n");
                     this.villagers.add(new Archer(fname, lname, villAge));
                     break;
             }
@@ -110,5 +115,15 @@ public class Territory {
         this.buildings.add(new ArcherTower(true));
         this.buildings.add(new House(true));
         this.buildings.add(new House(true));
+    }
+
+    public String getName() {
+        return name;
+    }
+    public List<Villager> getVillagers() {
+        return villagers;
+    }
+    public List<Building> getBulidings() {
+        return buildings;
     }
 }

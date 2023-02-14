@@ -6,5 +6,6 @@ public class BlackSmithShop extends Building {
         setLength(2);
         setWidth(2);
         setHitPoints(15);
+        setType("Blacksmith Shop");
     }
 }

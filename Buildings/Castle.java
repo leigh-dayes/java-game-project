@@ -6,6 +6,7 @@ public class Castle extends Building {
         setLength(5);
         setWidth(5);
         setHitPoints(200);
+        setType("Castle");
     }
     
 }

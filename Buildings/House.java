@@ -6,6 +6,7 @@ public class House extends Building {
         setWidth(2);
         setLength(2);
         setHitPoints(10);
+        setType("House");
     }
     
 }

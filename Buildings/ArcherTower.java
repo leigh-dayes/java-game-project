@@ -11,6 +11,7 @@ public class ArcherTower extends Building {
         setWidth(1);
         setLength(1);
         setHitPoints(25);
+        setType("Archer Tower");
     }
     
 }

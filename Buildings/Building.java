@@ -12,6 +12,9 @@ public abstract class Building {
     private int hitPoints;
     private boolean destroyed;
     private List<Villager> residents = new ArrayList<Villager>();
+    private int xLocation;
+    private int yLocation;
+    private String type;
 
 
     public Building(boolean locked) {
@@ -30,6 +33,15 @@ public abstract class Building {
     public void setHitPoints(int hp) {
         hitPoints = hp;
     }
+    public void setXLocation(int x) {
+        xLocation = x;
+    }
+    public void setYLocation(int y) {
+        yLocation = y;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
     public int getLength() {
         return length;
     }
@@ -41,6 +53,15 @@ public abstract class Building {
     }
     public int getHitPoints() {
         return hitPoints;
+    }
+    public int getXLocation() {
+        return xLocation;
+    }
+    public int getYlocation() {
+        return yLocation;
+    }
+    public String getType() {
+        return type;
     }
     public boolean isLocked() {
         return locked;

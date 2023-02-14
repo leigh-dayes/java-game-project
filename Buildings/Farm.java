@@ -6,6 +6,7 @@ public class Farm extends Building {
         setLength(7);
         setWidth(7);
         setHitPoints(10);
+        setType("Farm");
     }
     
 }
