@@ -7,7 +7,14 @@ public class Main {
     public static void main(String[] args) {
         //Map map = new Map();
         //Territory territory = new Territory();
-        MainMenu menu = new MainMenu();
+        Menu menu = new Menu();
+        // Game loop
+        /*
+        while(!menu.isExit()) {
+
+        }
+        */
         menu.main();
+
     }
 }

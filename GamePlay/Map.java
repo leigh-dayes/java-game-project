@@ -22,7 +22,7 @@ public class Map {
         territories.add(enemyTerritory);
         populateMap();
         placeTerritories(userTerrritory, enemyTerritory);
-        printMap();
+        //printMap();
     }
     /**
      * A function for placing territories down on the map
@@ -93,10 +93,41 @@ public class Map {
         for (int i = 0; i < X; i++) {
             for (int j = 0; j < Y; j++) {
                 if(world[i][j] instanceof Building) {
-                    System.out.print(" X ");
+                    if (world[i][j] instanceof Farm) {
+                        System.out.print(" F ");
+                    }
+                    else if (world[i][j] instanceof Castle) {
+                        System.out.print(" C ");
+                    }
+                    else if (world[i][j] instanceof ArcherTower) {
+                        System.out.print(" A ");
+                    }
+                    else if (world[i][j] instanceof House) {
+                        System.out.print(" H ");
+                    }
+                    else {
+                        System.out.print(" B ");
+                    }
                 }
                 else if (world[i][j] instanceof Villager) {
-                    System.out.print(" V ");
+                    if (world[i][j] instanceof Archer) {
+                        System.out.print(" a ");
+                    }
+                    else if (world[i][j] instanceof Blacksmith) {
+                        System.out.print(" b ");
+                    }
+                    else if (world[i][j] instanceof Farmer) {
+                        System.out.print(" f ");
+                    }
+                    else if (world[i][j] instanceof King) {
+                        System.out.print(" K ");
+                    }
+                    else if (world[i][j] instanceof Player) {
+                        System.out.print(" P ");
+                    }
+                    else {
+                        System.out.print(" k ");
+                    }
                 }
                 else {
                     System.out.print(world[i][j]);
@@ -282,5 +313,27 @@ public class Map {
                 }
             }
         }
+    }
+    /**
+     * A function for placing the playable Character
+     */
+    public void placePlayer(Villager player, int x1, int x2, int y1, int y2) {
+        Random rand = new Random();
+        boolean valid = false;
+        while(!valid) {
+            int vLocx = rand.nextInt(x1,x2);
+            int vLocy = rand.nextInt(y1,y2);
+            if (world[vLocx][vLocy].equals(" . ")){
+                valid = true;
+                world[vLocx][vLocy] = player;
+                player.setLocation(vLocx, vLocy);
+            } 
+        }
+    }
+    /**
+     * A function for accessing territories
+     */
+    public List<Territory> getTerritories() {
+        return territories;
     }
 }

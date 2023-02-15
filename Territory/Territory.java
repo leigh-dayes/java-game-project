@@ -23,7 +23,7 @@ public class Territory {
         this.name = scanner.nextLine();
         boolean validNum = false;
         do {
-            System.out.print("\nHow many Villagers live in (1-20)" + name + ": ");
+            System.out.print("\nHow many Villagers live in (1-20) " + name + ": ");
             try {
                 int numV = scanner.nextInt();
                 if (numV > 0 && numV <= 20) {
@@ -33,13 +33,14 @@ public class Territory {
                 else {
                     System.out.println("Whoops must have betweem 1 and 20 villigers to occupy a territory!");
                 }
+                scanner.nextLine();
             }
             catch (InputMismatchException e) {
                 System.out.println("Whoops, make sure you enter a positive number! ");
                 scanner.nextLine();
             }
         } while(!validNum);
-        scanner.close();
+        //scanner.close();
     }
     // constructor for creating the enemy village
     public Territory(String name, int numVillagers) {
@@ -123,5 +124,8 @@ public class Territory {
     }
     public List<Building> getBulidings() {
         return buildings;
+    }
+    public void addVilliger(Villager villager) {
+        villagers.add(villager);
     }
 }
