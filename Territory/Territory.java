@@ -110,10 +110,8 @@ public class Territory {
         //create buildings, 1 castle, 2 farms, 1 blacksmithshop, 2 houses and an archer tower
         this.buildings.add(new Castle(true));
         this.buildings.add(new Farm(false));
-        this.buildings.add(new Farm(false));
         this.buildings.add(new BlackSmithShop(true));
         this.buildings.add(new ArcherTower(true));
-        this.buildings.add(new House(true));
         this.buildings.add(new House(true));
     }
 

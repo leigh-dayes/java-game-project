@@ -8,8 +8,8 @@ public class ArcherTower extends Building {
 
     public ArcherTower(boolean locked) {
         super(locked);
-        setWidth(1);
-        setLength(1);
+        setWidth(2);
+        setLength(2);
         setHitPoints(25);
         setType("Archer Tower");
     }
