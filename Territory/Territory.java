@@ -23,15 +23,15 @@ public class Territory {
         this.name = scanner.nextLine();
         boolean validNum = false;
         do {
-            System.out.print("\nHow many Villagers live in " + name + ": ");
+            System.out.print("\nHow many Villagers live in (1-20)" + name + ": ");
             try {
                 int numV = scanner.nextInt();
-                if (numV > 0) {
+                if (numV > 0 && numV <= 20) {
                     populateTerritory(numV);
                     validNum = true;
                 }
                 else {
-                    System.out.println("Whoops must have atleast 1 villiger to occupy a territory!");
+                    System.out.println("Whoops must have betweem 1 and 20 villigers to occupy a territory!");
                 }
             }
             catch (InputMismatchException e) {

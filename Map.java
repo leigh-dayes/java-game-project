@@ -4,6 +4,7 @@ import java.util.List;
 import Territory.*;
 import java.util.Random;
 import Buildings.*;
+import Villagers.*;
 
 public class Map {
 
@@ -78,6 +79,11 @@ public class Map {
         int[] userHouseLoc = new int[2];
         int[] enemyHouseLoc = new int[2];
         locateSetAndDraw(userHouseLoc, enemyHouseLoc, xUserCastle, yUserCastle, xEnemyCastle, yEnemyCastle, castleLength, castleWidth, userHouse, enemyHouse, " uh", " eh");
+
+        // All buildings down now place Villagers on map
+        // place friendly villagers in top left quadrant
+        placeVillagers(userTerrritory.getVillagers(), 0, X/2, 0, Y/2);
+        placeVillagers(enemyTerritory.getVillagers(), X/2, X, Y/2, Y);
     }
     /**
      * A function to print out the map to console
@@ -87,7 +93,11 @@ public class Map {
             for (int j = 0; j < Y; j++) {
                 if(world[i][j] instanceof Building) {
                     System.out.print(" X ");
-                }else {
+                }
+                else if (world[i][j] instanceof Villager) {
+                    System.out.print(" V ");
+                }
+                else {
                     System.out.print(world[i][j]);
                 }
             }
@@ -253,5 +263,23 @@ public class Map {
         setAndDraw(userBuilding, userLoc, userName);
         enemyLoc = findLoc(xEnemyCastle, yEnemyCastle, castleLength, castleWidth, enemyBuilding.getLength(), enemyBuilding.getWidth());
         setAndDraw(enemyBuilding, enemyLoc, enemyName);
+    }
+    /**
+     * A function to place villagers
+     */
+    public void placeVillagers(List<Villager> villagers, int x1, int x2, int y1, int y2) {
+        Random rand = new Random();
+        for (Villager v : villagers) {
+            boolean validVplace = false;
+            while (!validVplace) {
+                int vLocx = rand.nextInt(x1,x2);
+                int vLocy = rand.nextInt(y1,y2);
+                if (world[vLocx][vLocy].equals(" . ")){
+                    validVplace = true;
+                    world[vLocx][vLocy] = v;
+                    v.setLocation(vLocx, vLocy);
+                }
+            }
+        }
     }
 }

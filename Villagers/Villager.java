@@ -8,6 +8,7 @@ public abstract class Villager {
     private int health;
     private boolean alive;
     private int maxAge = 120;
+    private int[] location = new int[2];
     //methods
     //constructer
     public Villager(String FirstName, String LastName, int Age) {
@@ -33,6 +34,9 @@ public abstract class Villager {
     public int getMaxAge() {
         return maxAge;
     }
+    public int[] getLocation() {
+        return location;
+    }
     public boolean isAlive() {
         return alive;
     }
@@ -45,6 +49,10 @@ public abstract class Villager {
     }
     public void setAge(int age) {
         Age = age;
+    }
+    public void setLocation(int x, int y) {
+        location[0] = x;
+        location[1] = y;
     }
     public void incrementHealth(int inc) {
         if (health + inc <= 100 && alive) {
