@@ -1,18 +1,21 @@
 package GamePlay;
 
 import java.util.Scanner;
-
 import Territory.Territory;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import Villagers.*;
+import Buildings.*;
 
 public class Menu {
 
     private boolean exit = false;
     private List<Map> games = new ArrayList<Map>();
+    private Map currentGame;
+    private List<Object> closeVillagers = new ArrayList<Object>();
+    private List<Object> closeBuildings = new ArrayList<Object>();
+    private Player user;
 
     public Menu() {
         System.out.println("\n###### WELCOME TO MEDIEVAL ASSASSIN ######\n");
@@ -26,7 +29,7 @@ public class Menu {
     /**
      * A function for producing a main menu
      */
-    public void main() {
+    public int main() {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean validCoice = false;
@@ -38,15 +41,13 @@ public class Menu {
             System.out.println("#                                         #");
             System.out.println("# 1: NEW GAME                             #");
             System.out.println("#                                         #");
-            System.out.println("# 2: INSTRUCTIONS                         #");
-            System.out.println("#                                         #");
             System.out.println("# 0: EXIT                                 #");
             System.out.println("#                                         #");
             System.out.println("###########################################");
             System.out.print("YOUR SELECTION: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                if (choice >=0 && choice < 3) {
+                if (choice >=0 && choice < 2) {
                     validCoice = true;
                 }
                 else {
@@ -59,23 +60,14 @@ public class Menu {
                 scanner.nextLine();
             }
         } while (!validCoice);
-        switch(choice) {
-            case 1: 
-                newGame();
-                break;
-            case 2:
-                instructionsMenu();
-                break;
-            case 0:
-                exitMenu();
-                break;
-        }
-        scanner.close();
+        //scanner.close();
+        return choice;
     }
     public void newGame() {
         System.out.println("New Game created...");
         Map map = new Map();
         games.add(map);
+        currentGame = map;
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nWhat is the first name of your character?: ");
         String fname = scanner.nextLine();
@@ -84,7 +76,7 @@ public class Menu {
         boolean validAge = false;
         int age = 0;
         do {
-            System.out.print("what is the age of your character?: ");
+            System.out.print("\nwhat is the age of your character?: ");
             try {
                 age = scanner.nextInt();
                 if (age > 0 && age < 121) {
@@ -105,10 +97,12 @@ public class Menu {
         //add player to user territory villager list
         List<Territory> territories = map.getTerritories();
         territories.get(0).addVilliger(user);
+        this.user = user;
         // place player in user territory
         map.placePlayer(user, 0, Map.X/2, 0, Map.Y/2);
         map.printMap();
-        scanner.close();
+        //scanner.close();
+        System.out.println("\nYou awaken on the ground, your head hurts.. you cant remember a thing.. ");
     }
     public void instructionsMenu() {
         System.out.println("Welcome to the instructions menu...");
@@ -119,5 +113,221 @@ public class Menu {
     }
     public List<Map> getMaps() {
         return games;
+    }
+    public void gamePlayMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        boolean isVillagerOption = false;
+        boolean isBuildingOption = false;
+        boolean validCoice = false;
+        do {
+            System.out.println("###########################################");
+            System.out.println("#        PLEASE CHOOSE AN OPTION          #");
+            System.out.println("#-----------------------------------------#");
+            System.out.println("#                                         #");
+            System.out.println("# 1: HELP ME                              #");
+            System.out.println("#                                         #");
+            System.out.println("# 2: MOVE NORTH                           #");
+            System.out.println("#                                         #");
+            System.out.println("# 3: MOVE EAST                            #");
+            System.out.println("#                                         #");
+            System.out.println("# 4: MOVE SOUTH                           #");
+            System.out.println("#                                         #");
+            System.out.println("# 5: MOVE WEST                            #");
+            System.out.println("#                                         #");
+            if (nearSomething(user.getLocation()[0], user.getLocation()[1])){
+                if (!closeBuildings.isEmpty() && !closeVillagers.isEmpty()){
+                    System.out.println("# 6: ENTER BUILDING                       #");
+                    System.out.println("#                                         #");
+                    System.out.println("# 7: TALK TO VILLAGER                     #");
+                    System.out.println("#                                         #");
+                }
+                else if (!closeVillagers.isEmpty()) {
+                    System.out.println("# 7: TALK TO VILLAGER                     #");
+                    System.out.println("#                                         #");
+                }
+                else if (!closeBuildings.isEmpty()) {
+                    System.out.println("# 6: ENTER BUILDING                       #");
+                    System.out.println("#                                         #");
+                }
+            }
+            System.out.println("# 0: EXIT                                 #");
+            System.out.println("#                                         #");
+            System.out.println("###########################################");
+            System.out.print("YOUR SELECTION: ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                if (choice >=0 && choice < 8) {
+                    validCoice = true;
+                }
+                else {
+                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for a new game\n");
+                    scanner.nextLine();
+                }
+            }
+            else {
+                System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for a new game\n");
+                scanner.nextLine();
+            }
+        } while (!validCoice);
+        switch(choice) {
+            case 1: 
+                helpMe();
+                break;
+            case 2:
+                instructionsMenu();
+                break;
+            case 0:
+                exitMenu();
+                break;
+        }
+        scanner.close();
+    }
+    /**
+     * A function that checks the sorroundings of a player and updates closeVillagers
+     * and closeBuildings list as applicable to enable player interaction with the world
+     * 
+     * @param x x-location of player
+     * @param y y-location of player
+     * 
+     * @return true if a building or villager is close to player else false
+     */
+    public boolean nearSomething(int x, int y) {
+        boolean somethingClose = false;
+        closeBuildings.clear();
+        closeVillagers.clear();
+        //pretty gross function, need to make sure i dont get an index out of bounds exception
+        //north
+        if(x-1 >= 0) {
+            if (currentGame.getWorld()[x-1][y] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            } 
+            else if (currentGame.getWorld()[x-1][y] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //north east
+        if (x-1 >= 0 && y+1 <= Map.Y) {
+            if (currentGame.getWorld()[x-1][y+1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x-1][y+1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+
+        //east
+        if (y+1 <= Map.Y) {
+            if (currentGame.getWorld()[x][y+1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x][y+1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //south east
+        if (x+1 <= Map.X && y+1 <= Map.Y) {
+            if (currentGame.getWorld()[x+1][y+1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x+1][y+1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //south
+        if (x+1 <= Map.X) {
+            if (currentGame.getWorld()[x+1][y] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x+1][y] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //south west
+        if (x+1 <= Map.X && y-1 >= 0) {
+            if (currentGame.getWorld()[x+1][y-1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x+1][y-1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //west
+        if (y-1 >= 0) {
+            if (currentGame.getWorld()[x][y-1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x][y-1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        //north west
+        if (x-1 >= 0 && y-1 >= 0) {
+            if (currentGame.getWorld()[x-1][y-1] instanceof Building) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
+            else if (currentGame.getWorld()[x-1][y-1] instanceof Villager) {
+                somethingClose = true;
+                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+            }
+        }
+        
+        return somethingClose;
+    }
+    public void helpMe() {
+        System.out.println("###########################################");
+        System.out.println("#              HELP ME!!                  #");
+        System.out.println("#-----------------------------------------#");
+        System.out.println("# The aim of the game is to assassinate   #");
+        System.out.println("# the enemy king! to do this you must     #");
+        System.out.println("# navigate your way to the enemy castle.  #");
+        System.out.println("#                                         #");
+        System.out.println("# you will need to equip yourself with a  #");
+        System.out.println("# weapon and may need to fight off enemy  #");
+        System.out.println("# knights along the way!                  #");
+        System.out.println("#-----------------------------------------#");
+        System.out.println("#             MAP LEGEND                  #");
+        System.out.println("#-----------------------------------------#");
+        System.out.println("# A/ua - user archer tower                #");
+        System.out.println("# C/uc - user castle                      #");
+        System.out.println("# F/uf - user farm                        #");
+        System.out.println("# B/ub - user blacksmith shop             #");
+        System.out.println("# H/uh - user house                       #");
+        System.out.println("#                                         #");
+        System.out.println("# A/ea - enemy archer tower               #");
+        System.out.println("# C/ec - enemy castle                     #");
+        System.out.println("# F/ef - enemy farm                       #");
+        System.out.println("# B/eb - enemy blacksmith shop            #");
+        System.out.println("# H/eh - enemy house                      #");
+        System.out.println("#                                         #");
+        System.out.println("# P - player (you)                        #");
+        System.out.println("# a - archer                              #");
+        System.out.println("# k - knight                              #");
+        System.out.println("# b - blacksmith                          #");
+        System.out.println("# f - farmer                              #");
+        System.out.println("#                                         #");
+        System.out.println("###########################################");
+        gamePlayMenu();
     }
 }

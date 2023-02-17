@@ -336,4 +336,10 @@ public class Map {
     public List<Territory> getTerritories() {
         return territories;
     }
+    public Object[][] getWorld() {
+        return world;
+    }
+    public void setPosition(int x, int y, Object value) {
+        world[x][y] = value;
+    }
 }

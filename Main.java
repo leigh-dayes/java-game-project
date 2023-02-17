@@ -5,16 +5,17 @@ import GamePlay.*;
 
 public class Main {
     public static void main(String[] args) {
-        //Map map = new Map();
-        //Territory territory = new Territory();
         Menu menu = new Menu();
-        // Game loop
-        /*
-        while(!menu.isExit()) {
-
+        int choice = menu.main();
+        if (choice == 1) {
+            menu.newGame();
+            while(!menu.isExit()) {
+                // Game loop
+                menu.gamePlayMenu();
+            }
         }
-        */
-        menu.main();
-
+        else {
+            System.out.println("\nThank you for playing Medieval assassin\n");
+        }
     }
 }
