@@ -63,6 +63,9 @@ public class Menu {
         //scanner.close();
         return choice;
     }
+    /**
+     * A menu for creating a new game
+     */
     public void newGame() {
         System.out.println("New Game created...");
         Map map = new Map();
@@ -114,6 +117,9 @@ public class Menu {
     public List<Map> getMaps() {
         return games;
     }
+    /**
+     * The main game play menu for exploring the map
+     */
     public void gamePlayMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
@@ -121,7 +127,7 @@ public class Menu {
         boolean isBuildingOption = false;
         boolean validCoice = false;
         do {
-            System.out.println("###########################################");
+            System.out.println("\n###########################################");
             System.out.println("#        PLEASE CHOOSE AN OPTION          #");
             System.out.println("#-----------------------------------------#");
             System.out.println("#                                         #");
@@ -154,28 +160,44 @@ public class Menu {
             System.out.println("# 0: EXIT                                 #");
             System.out.println("#                                         #");
             System.out.println("###########################################");
+            System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
             System.out.print("YOUR SELECTION: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
                 if (choice >=0 && choice < 8) {
                     validCoice = true;
+                    //scanner.nextLine();
                 }
                 else {
-                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for a new game\n");
-                    scanner.nextLine();
+                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help menu\n");
+                    //scanner.nextLine();
                 }
             }
             else {
-                System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for a new game\n");
-                scanner.nextLine();
+                System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help main\n");
+                //scanner.nextLine();
             }
+            scanner.nextLine();
         } while (!validCoice);
         switch(choice) {
             case 1: 
                 helpMe();
                 break;
             case 2:
-                instructionsMenu();
+                movePlayer("NORTH");
+                break;
+            case 3:
+                movePlayer("EAST");
+                break;
+            case 4:
+                movePlayer("SOUTH");
+                break;
+            case 5:
+                movePlayer("WEST");
+                break;
+            case 6:
+                break;
+            case 7:
                 break;
             case 0:
                 exitMenu();
@@ -210,62 +232,62 @@ public class Menu {
         }
         
         //north east
-        if (x-1 >= 0 && y+1 <= Map.Y) {
+        if (x-1 >= 0 && y+1 < Map.Y) {
             if (currentGame.getWorld()[x-1][y+1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x-1][y+1]);
             }
             else if (currentGame.getWorld()[x-1][y+1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x-1][y+1]);
             }
         }
 
         //east
-        if (y+1 <= Map.Y) {
+        if (y+1 < Map.Y) {
             if (currentGame.getWorld()[x][y+1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x][y+1]);
             }
             else if (currentGame.getWorld()[x][y+1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x][y+1]);
             }
         }
         
         //south east
-        if (x+1 <= Map.X && y+1 <= Map.Y) {
+        if (x+1 < Map.X && y+1 < Map.Y) {
             if (currentGame.getWorld()[x+1][y+1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x+1][y+1]);
             }
             else if (currentGame.getWorld()[x+1][y+1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x+1][y+1]);
             }
         }
         
         //south
-        if (x+1 <= Map.X) {
+        if (x+1 < Map.X) {
             if (currentGame.getWorld()[x+1][y] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x+1][y]);
             }
             else if (currentGame.getWorld()[x+1][y] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x+1][y]);
             }
         }
         
         //south west
-        if (x+1 <= Map.X && y-1 >= 0) {
+        if (x+1 < Map.X && y-1 >= 0) {
             if (currentGame.getWorld()[x+1][y-1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x+1][y-1]);
             }
             else if (currentGame.getWorld()[x+1][y-1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x+1][y-1]);
             }
         }
         
@@ -273,11 +295,11 @@ public class Menu {
         if (y-1 >= 0) {
             if (currentGame.getWorld()[x][y-1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x][y-1]);
             }
             else if (currentGame.getWorld()[x][y-1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x][y-1]);
             }
         }
         
@@ -285,18 +307,21 @@ public class Menu {
         if (x-1 >= 0 && y-1 >= 0) {
             if (currentGame.getWorld()[x-1][y-1] instanceof Building) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                closeBuildings.add(currentGame.getWorld()[x-1][y-1]);
             }
             else if (currentGame.getWorld()[x-1][y-1] instanceof Villager) {
                 somethingClose = true;
-                closeVillagers.add(currentGame.getWorld()[x-1][y]);
+                closeVillagers.add(currentGame.getWorld()[x-1][y-1]);
             }
         }
         
         return somethingClose;
     }
+    /**
+     * A menu to help players understand the game
+     */
     public void helpMe() {
-        System.out.println("###########################################");
+        System.out.println("\n###########################################");
         System.out.println("#              HELP ME!!                  #");
         System.out.println("#-----------------------------------------#");
         System.out.println("# The aim of the game is to assassinate   #");
@@ -326,8 +351,121 @@ public class Menu {
         System.out.println("# k - knight                              #");
         System.out.println("# b - blacksmith                          #");
         System.out.println("# f - farmer                              #");
-        System.out.println("#                                         #");
+        System.out.println("# . - blank space                         #");
         System.out.println("###########################################");
+        gamePlayMenu();
+    }
+    public void movePlayer(String direction) {
+        int x = user.getLocation()[0];
+        int y = user.getLocation()[1];
+        Object[][] world = currentGame.getWorld();
+        switch(direction) {
+            case "NORTH":
+                if (x > 0) {
+                    if (world[x-1][y].equals(" . ")) {
+                        user.setLocation(x - 1, y);
+                        currentGame.setPosition(x , y," . ");
+                        currentGame.setPosition(x-1, y, user);
+                    }
+                    else {
+                        if (world[x-1][y] instanceof Building) {
+                           //some logic to interact with building
+                           //need to account for strings that represent buildings
+                           System.out.println("Entered a building.. ");
+                           user.setLocation(x - 1, y);
+                           currentGame.setPosition(x , y," . ");
+                           currentGame.setPosition(x-1, y, user);
+                        }
+                        // not building or empty space must be a villager
+                        else {
+                            System.out.println("Talk to a villiger!.. ");
+                        }
+                    }
+                }
+                else {
+                    System.out.println("\nWhat lies to the North of you cannot be explored...");
+                }
+                break;
+
+                case "EAST":
+                    if (y <= Map.Y - 1) {
+                        if (world[x][y+1].equals(" . ")) {
+                            user.setLocation(x, y+1);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x, y + 1, user);
+                        }
+                        else {
+                            if (world[x][y+1] instanceof Building) {
+                            //some logic to interact with building
+                            System.out.println("Entered a building.. ");
+                            user.setLocation(x, y + 1);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x, y + 1, user);
+                            }
+                            // not building or empty space must be a villager
+                            else {
+                                System.out.println("Talk to a villiger!.. ");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("\nWhat lies to the East of you cannot be explored...");
+                    }
+                    break;
+                
+                case "SOUTH":
+                    if (x < Map.X -1 ) {
+                        if (world[x+1][y].equals(" . ")) {
+                            user.setLocation(x+1, y);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x + 1, y, user);
+                        }
+                        else {
+                            if (world[x+1][y] instanceof Building) {
+                            //some logic to interact with building
+                            System.out.println("Entered a building.. ");
+                            user.setLocation(x+1, y);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x+1, y, user);
+                            }
+                            // not building or empty space must be a villager
+                            else {
+                                System.out.println("Talk to a villiger!.. ");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("\nWhat lies to the South of you cannot be explored...");
+                    }
+                    break;
+                
+                case "WEST":
+                    if (y > 0) {
+                        if (world[x][y-1].equals(" . ")) {
+                            user.setLocation(x, y-1);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x, y-1, user);
+                        }
+                        else {
+                            if (world[x][y-1] instanceof Building) {
+                            //some logic to interact with building
+                            System.out.println("Entered a building.. ");
+                            user.setLocation(x, y-1);
+                            currentGame.setPosition(x , y," . ");
+                            currentGame.setPosition(x, y-1, user);
+                            }
+                            // not building or empty space must be a villager
+                            else {
+                                System.out.println("Talk to a villiger!.. ");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("\nWhat lies to the West of you cannot be explored...");
+                    }
+                break;
+        }
+        currentGame.printMap();
         gamePlayMenu();
     }
 }

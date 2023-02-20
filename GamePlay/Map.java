@@ -137,6 +137,9 @@ public class Map {
         }
     }
     /**
+     * A function to print a mini map
+     */
+    /**
      * A function to create a "blank" map
      */
     public void populateMap(){
