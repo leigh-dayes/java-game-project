@@ -10,6 +10,11 @@ public class Archer extends Villager {
     private int minRange = 1;
     private int minAccuracy = 3;
     private int maxAccuracy = 10;
+    private String[] occupationStrings = {
+        "I am the finest archer in all the land",
+        "I am a Bowman of note",
+        "I am an Archer same as my father and his father and his.. fathers father",
+    };
     
     public Archer(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
@@ -31,5 +36,9 @@ public class Archer extends Villager {
         Random rand = new Random();
         this.range = rand.nextInt(minRange, maxRange+1);
         this.accuracy = rand.nextInt(minAccuracy, maxAccuracy+1);
+    }
+    public void speakOccupation() {
+        Random rand = new Random();
+        System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
     }
 }

@@ -8,6 +8,11 @@ public class Blacksmith extends Villager {
     //prefer not to hardcode this might move enum to this file
     // and use BlacksmithRanking.values().length()
     int numRankings = 3;
+    private String[] occupationStrings = {
+        "I am the most skilled of artisans, the Blacksmith",
+        "I beat ore into weapons and armour, I am a Blacksmith",
+        "I work next to a raging fire.. its really hot, I'm a blacksmith"
+    };
 
     public Blacksmith(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
@@ -44,5 +49,9 @@ public class Blacksmith extends Villager {
         System.out.println("Last Name: " + getLastName());
         System.out.println("Age: " + getAge());
         System.out.println(getFirstName() + " " + getLastName() + " is Blacksmith rank: " + ranking.toString());
+    }
+    public void speakOccupation() {
+        Random rand = new Random();
+        System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
     }
 }

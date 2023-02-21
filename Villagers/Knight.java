@@ -5,49 +5,49 @@ import java.util.Random;
 
 public class Knight extends Villager {
 
-    private Weapons weapon;
+    //private Weapons weapon;
     private int strength;
-    private Armour armour;
+    //private Armour armour;
     private int numWeapons = 5;
     private int numArmour = 3;
+    private String[] occupationStrings = {
+        "I am my enemies worst nightmare, a royal Knight",
+        "I solve other peoples problems with violence, I am a Knight",
+        "Get in my way and feel my wrath, I am a Knight"
+    };
 
     public Knight(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
         generateStrength();
-        setWeapon();
-        setArmour();
+        setKnightWeapon();
+        setKnightArmour();
         //System.out.println("\n** Knight Created **\n");
         //printInfo();
     }
     //getters
-    public Weapons getWeapon() {
-        return weapon;
-    }
+    
     public int getStrength() {
         return strength;
     }
-    public Armour getArmour() {
-        return armour;
-    }
     //setters
-    public void setWeapon() {
+    public void setKnightWeapon() {
         Random rand = new Random();
         int selection = rand.nextInt(numWeapons);
         switch(selection) {
             case 0:
-                weapon = Weapons.Club;
+                setWeapon(Weapons.Club);
                 break;
             case 1:
-                weapon = Weapons.Dagger;
+                setWeapon(Weapons.Dagger);
                 break;
             case 2:
-                weapon = Weapons.Lance;
+                setWeapon(Weapons.Lance);
                 break;
             case 3:
-                weapon = Weapons.Mace;
+                setWeapon(Weapons.Mace);
                 break;
             case 4:
-                weapon = Weapons.Sword;
+                setWeapon(Weapons.Sword);
                 break;
         }
 
@@ -55,18 +55,18 @@ public class Knight extends Villager {
     public void setStrength(int strength) {
         this.strength = strength;
     }
-    public void setArmour() {
+    public void setKnightArmour() {
         Random rand = new Random();
         int selection = rand.nextInt(numArmour);
         switch(selection) {
             case 0:
-                armour = Armour.leather;
+                setArmour(Armour.leather);
                 break;
             case 1:
-                armour = Armour.steel;
+                setArmour(Armour.steel);
                 break;
             case 2:
-                armour = Armour.none;
+                setArmour(Armour.none);
                 break;
         }
     }
@@ -87,7 +87,7 @@ public class Knight extends Villager {
         String weap = scanner.nextLine();
         for (Weapons w: Weapons.values()){
             if (weap.equalsIgnoreCase(w.toString())){
-                weapon = w;
+                setWeapon(w);
                 System.out.println(getFirstName() + " has choosen a " + weap);
                 validWeapon = true;
                 break;
@@ -116,7 +116,7 @@ public class Knight extends Villager {
         String arm = scanner.nextLine();
         for (Armour a: Armour.values()){
             if (arm.equalsIgnoreCase(a.toString())){
-                armour = a;
+                setArmour(a);
                 System.out.println(getFirstName() + " has choosen " + arm + " armour!");
                 validArmour = true;
                 break;
@@ -145,5 +145,9 @@ public class Knight extends Villager {
     public void generateStrength() {
         Random rand = new Random();
         strength = rand.nextInt(1, 10);
+    }
+    public void speakOccupation() {
+        Random rand = new Random();
+        System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
     }
 }

@@ -130,6 +130,7 @@ public class Menu {
             System.out.println("\n###########################################");
             System.out.println("#        PLEASE CHOOSE AN OPTION          #");
             System.out.println("#-----------------------------------------#");
+            System.out.println("#  <3 = " + user.getHealth() + "%" + "      $ = " + user.getWallet() + "                   #");
             System.out.println("#                                         #");
             System.out.println("# 1: HELP ME                              #");
             System.out.println("#                                         #");
@@ -160,7 +161,7 @@ public class Menu {
             System.out.println("# 0: EXIT                                 #");
             System.out.println("#                                         #");
             System.out.println("###########################################");
-            System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
+            //System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
             System.out.print("YOUR SELECTION: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
@@ -198,6 +199,8 @@ public class Menu {
             case 6:
                 break;
             case 7:
+                sayHello();
+                interactWithVillager();
                 break;
             case 0:
                 exitMenu();
@@ -332,6 +335,12 @@ public class Menu {
         System.out.println("# weapon and may need to fight off enemy  #");
         System.out.println("# knights along the way!                  #");
         System.out.println("#-----------------------------------------#");
+        System.out.println("#             MENU ITEMS                  #");
+        System.out.println("#-----------------------------------------#");
+        System.out.println("# <3 - life percentage left               #");
+        System.out.println("# $  - amount of money in wallet          #");
+        System.out.println("#                                         #");
+        System.out.println("#-----------------------------------------#");
         System.out.println("#             MAP LEGEND                  #");
         System.out.println("#-----------------------------------------#");
         System.out.println("# A/ua - user archer tower                #");
@@ -351,6 +360,7 @@ public class Menu {
         System.out.println("# k - knight                              #");
         System.out.println("# b - blacksmith                          #");
         System.out.println("# f - farmer                              #");
+        System.out.println("# - - off the map                         #");
         System.out.println("# . - blank space                         #");
         System.out.println("###########################################");
         gamePlayMenu();
@@ -467,5 +477,99 @@ public class Menu {
         }
         currentGame.printMiniMap(user);
         gamePlayMenu();
+    }
+    public void interactWithVillager() {
+        
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        boolean validCoice = false;
+        do {
+            System.out.println("\n###########################################");
+            System.out.println("#        PLEASE CHOOSE AN OPTION          #");
+            System.out.println("#-----------------------------------------#");
+            System.out.println("#  <3 = " + user.getHealth() + "%" + "      $ = " + user.getWallet() + "                   #");
+            System.out.println("#                                         #");
+            System.out.println("# 1: ASK VILLAGER THEIR OCCUPATION        #");
+            System.out.println("#                                         #");
+            System.out.println("# 2: ROB VILLAGER                         #");
+            System.out.println("#                                         #");
+            System.out.println("# 3: FIGHT VILLAGER                       #");
+            System.out.println("#                                         #");
+            System.out.println("# 0: EXIT                                 #");
+            System.out.println("#                                         #");
+            System.out.println("###########################################");
+            //System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
+            System.out.print("YOUR SELECTION: ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                if (choice >=0 && choice < 4) {
+                    validCoice = true;
+                    //scanner.nextLine();
+                }
+                else {
+                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help menu\n");
+                    //scanner.nextLine();
+                }
+            }
+            else {
+                System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help main\n");
+                //scanner.nextLine();
+            }
+            scanner.nextLine();
+        } while (!validCoice);
+        switch(choice) {
+            case 1: 
+                getOccupation();
+                break;
+            case 2:
+                movePlayer("NORTH");
+                break;
+            case 3:
+                movePlayer("EAST");
+                break;
+            case 0:
+                gamePlayMenu();
+                break;
+        }
+        //scanner.close();
+        gamePlayMenu();
+    }
+    /**
+     * A function for answering occupation
+     */
+    public void getOccupation() {
+        int i = 1;
+        for (Object v: closeVillagers) {
+            System.out.print("\nVILLAGER " + i + ": ");
+            if (v instanceof Archer) {
+                Archer a = (Archer) v;
+                a.speakOccupation();
+            }
+            else if (v instanceof Blacksmith) {
+                Blacksmith b = (Blacksmith) v;
+                b.speakOccupation();
+            }
+            else if (v instanceof Farmer) {
+                Farmer f = (Farmer) v;
+                f.speakOccupation();
+            }
+            else if (v instanceof Knight) {
+                Knight k = (Knight) v;
+                k.speakOccupation();
+            }
+        }
+        interactWithVillager();
+    }
+    /**
+     * A funciton to say villagers names
+     */
+    public void sayHello() {
+        int i = 1;
+        for (Object v : closeVillagers) {
+            Villager vill = (Villager) v;
+            System.out.print("\nVILLAGER " + i + ": ");
+            vill.sayHello();
+            i++;
+        }
     }
 }

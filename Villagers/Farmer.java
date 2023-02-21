@@ -6,6 +6,11 @@ public class Farmer extends Villager {
 
     private FarmerType type;
     private int numTypes = 3;
+    private String[] occupationStrings = {
+        "I produce the food that keeps this kingdom running, I'm a Farmer",
+        "I work in the dirt and put food on the table, a Farmer",
+        "my mother sewed the seeds that made this great kingdom of ours, I continue her legacy as a Farmer"
+    };
 
     public Farmer(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
@@ -37,5 +42,9 @@ public class Farmer extends Villager {
         System.out.println("Last Name: " + getLastName());
         System.out.println("Age: " + getAge());
         System.out.println(getFirstName() + " " + getLastName() + " is a " + type.toString() + " farmer.");
+    }
+    public void speakOccupation() {
+        Random rand = new Random();
+        System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
     }
 }
