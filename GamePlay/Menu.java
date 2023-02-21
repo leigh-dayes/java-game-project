@@ -465,7 +465,7 @@ public class Menu {
                     }
                 break;
         }
-        currentGame.printMap();
+        currentGame.printMiniMap(user);
         gamePlayMenu();
     }
 }

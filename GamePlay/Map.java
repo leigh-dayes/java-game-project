@@ -11,6 +11,8 @@ public class Map {
 
     static final int X = 50;
     static final int Y = 50;
+    static final int miniX = 6;
+    static final int miniY = 6;
     private Object[][] world = new Object[X][Y];
     private List<Territory> territories = new ArrayList<Territory>();
 
@@ -139,6 +141,69 @@ public class Map {
     /**
      * A function to print a mini map
      */
+    public void printMiniMap(Player user) {
+        int startX = user.getLocation()[0] - miniX;
+        int startY = user.getLocation()[1] - miniY;
+        int totalX = 2*miniX +1 + startX;
+        int totalY = 2*miniY +1 + startY;
+        System.out.println("\n############################################N#");
+        System.out.println("################# MINI MAP #################^#");
+        System.out.println("############################################|#");
+        for (int i = startX; i <= totalX; i++) {
+            System.out.print("# ");
+            for (int j = startY; j <= totalY; j++) {
+                //out of map
+                if(i < 0 || i > X-1 || j < 0 || j > X-1){
+                    System.out.print(" - ");
+                }
+                else {
+                    if(world[i][j] instanceof Building) {
+                        if (world[i][j] instanceof Farm) {
+                            System.out.print(" F ");
+                        }
+                        else if (world[i][j] instanceof Castle) {
+                            System.out.print(" C ");
+                        }
+                        else if (world[i][j] instanceof ArcherTower) {
+                            System.out.print(" A ");
+                        }
+                        else if (world[i][j] instanceof House) {
+                            System.out.print(" H ");
+                        }
+                        else {
+                            System.out.print(" B ");
+                        }
+                    }
+                    else if (world[i][j] instanceof Villager) {
+                        if (world[i][j] instanceof Archer) {
+                            System.out.print(" a ");
+                        }
+                        else if (world[i][j] instanceof Blacksmith) {
+                            System.out.print(" b ");
+                        }
+                        else if (world[i][j] instanceof Farmer) {
+                            System.out.print(" f ");
+                        }
+                        else if (world[i][j] instanceof King) {
+                            System.out.print(" K ");
+                        }
+                        else if (world[i][j] instanceof Player) {
+                            System.out.print(" P ");
+                        }
+                        else {
+                            System.out.print(" k ");
+                        }
+                    }
+                    else {
+                        System.out.print(world[i][j]);
+                    }
+                }
+            }
+            System.out.print(" #");
+            System.out.println("");
+        }
+        System.out.println("##############################################");         
+    }
     /**
      * A function to create a "blank" map
      */
