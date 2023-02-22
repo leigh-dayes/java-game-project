@@ -15,10 +15,15 @@ public class Archer extends Villager {
         "I am a Bowman of note",
         "I am an Archer same as my father and his father and his.. fathers father",
     };
-    
+    private String[] adviceStrings = {
+        "I care not for helping you!",
+        "You want my advice? go back home to mummy",
+    };
     public Archer(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
         generateAbilities();
+        setWeapon(Weapons.Bow);
+        setArmour(Armour.leather);
     }
     public int getRange() {
         return range;
@@ -40,5 +45,9 @@ public class Archer extends Villager {
     public void speakOccupation() {
         Random rand = new Random();
         System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
+    }
+    public void giveAdvice() {
+        Random rand = new Random();
+        System.out.println(adviceStrings[rand.nextInt(adviceStrings.length)]);
     }
 }

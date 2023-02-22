@@ -11,10 +11,17 @@ public class Farmer extends Villager {
         "I work in the dirt and put food on the table, a Farmer",
         "my mother sewed the seeds that made this great kingdom of ours, I continue her legacy as a Farmer"
     };
+    private String[] adviceStrings = {
+        "I do know one thing, farming may be difficult, but it pays the bills",
+        "My freind is always looking for an extra hand on the local farm, he pays $'s",
+        "My advice to you is to head to the farm, earn an honest dollar"
+    };
 
     public Farmer(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
         generateType();
+        setWeapon(Weapons.Fists);
+        setArmour(Armour.none);
     }
     public void generateType() {
         Random rand = new Random();
@@ -46,5 +53,9 @@ public class Farmer extends Villager {
     public void speakOccupation() {
         Random rand = new Random();
         System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
+    }
+    public void giveAdvice() {
+        Random rand = new Random();
+        System.out.println(adviceStrings[rand.nextInt(adviceStrings.length)]);
     }
 }

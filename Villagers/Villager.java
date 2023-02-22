@@ -11,8 +11,8 @@ public abstract class Villager {
     private int Age;
     private int health;
     private boolean alive;
-    private Weapons weapon = Weapons.Fists;
-    private Armour armour = Armour.none;
+    private Weapons weapon;
+    private Armour armour;
     private int maxAge = 120;
     private int[] location = new int[2];
     private List<Keys> keys = new ArrayList<Keys>();
@@ -30,8 +30,8 @@ public abstract class Villager {
         this.FirstName = FirstName;
         this.LastName = LastName;
         this.Age = Age;
-        health = 100;
-        alive = true;
+        this.health = 100;
+        this.alive = true;
         Random rand = new Random();
         wallet = rand.nextInt(10);
     }
@@ -55,7 +55,12 @@ public abstract class Villager {
         return location;
     }
     public boolean isAlive() {
-        return alive;
+        if (health > 0) {
+            return true;
+        } else {
+            alive = false;
+            return false;
+        }
     }
     public List<Keys> getKeys() {
         return keys;
@@ -91,7 +96,7 @@ public abstract class Villager {
         if (alive) {
             health = health - dec;
             if (health >= 0) {
-                alive = false;
+                alive = true;
             }
         }
     }
@@ -143,6 +148,9 @@ public abstract class Villager {
         }
         else if (weapon == Weapons.Mace) {
             power = rand.nextInt(12, 18);
+        }
+        else if (weapon == Weapons.Bow) {
+            power = rand.nextInt(3, 20);
         }
         else {
             // sword

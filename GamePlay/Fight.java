@@ -12,9 +12,7 @@ public class Fight {
     private Player user;
     private List<Villager> friendlies = new ArrayList<Villager>();
     private List<Villager> enemies = new ArrayList<Villager>();
-    private Villager[] activeFriendlies;
-    private Villager[] activeEnemies;
-    private boolean fightOver = false;
+    //private boolean fightOver = false;
 
     public Fight(Player user) {
         this.user = user;
@@ -29,6 +27,7 @@ public class Fight {
         // fight loop
         boolean myTurn = true;
         Random rand = new Random();
+        boolean fightOver = false;
         while(!fightOver) {
             //check to see if any enemies
             if (enemies.isEmpty()) {
@@ -53,7 +52,11 @@ public class Fight {
                         System.out.println(attacker.getFirstName() + " has swung wildly and missed!");
                     }
                     // see if they attack you or you allies
-                    int defender = rand.nextInt(friendlies.size());
+                    int defender = 0;
+                    // see if we have allies
+                    if (friendlies.size() > 0) {
+                        defender = rand.nextInt(friendlies.size());
+                    }
                     if (defender == 0) {
                         int defence = user.getArmourDefence();
                         int damage = attackDamage - defence;
@@ -87,17 +90,14 @@ public class Fight {
                             }
                         }
                         else if (damage <= 0 && accuracy == 0) {
-                            System.out.println("Your ally " + allyDefender.getFirstName() +" has blocked the attack!");
+                            System.out.println("Your ally " + allyDefender.getFirstName() + " has blocked the attack!");
                         }
                     }
 
                 }
             }
-            
-
+            System.out.println(" ");
         }
-        
-
     }
     /**
      * A function that either attacks using the player or one of the friendlies
@@ -105,7 +105,7 @@ public class Fight {
     public void fAttack(int choice, Villager target, int accuracy) {
         Villager attacker;
         String attackMessage;
-        if (choice == 0 || friendlies.size() == 0) {
+        if (choice == 0 || friendlies.isEmpty()) {
             attacker = user;
             attackMessage= "You";
         }
@@ -124,6 +124,7 @@ public class Fight {
         if (damage > 0) {
             target.decrementHealth(damage);
             System.out.println(attackMessage + " hit your opponent " + target.getFirstName() + ", causing " + damage + " damage!");
+            System.out.println(target.getFirstName() + " is down to " + target.getHealth() + "% health");
             if (!target.isAlive()) {
                 System.out.println(target.getFirstName() + " has been killed in battle.");
                 enemies.remove(target);
@@ -132,5 +133,11 @@ public class Fight {
         else if (damage <= 0 && accuracy == 0) {
             System.out.println("Your opponent has blocked the attack!");
         }
+    }
+    /**
+     * A function to check if the user died during battle
+     */
+    public boolean userAlive() {
+        return user.isAlive();
     }
 }

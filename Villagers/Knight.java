@@ -15,6 +15,12 @@ public class Knight extends Villager {
         "I solve other peoples problems with violence, I am a Knight",
         "Get in my way and feel my wrath, I am a Knight"
     };
+    public String[] adviceStrings = {
+        "Someone as small as you could never be a knight!",
+        "If you venturing to the South East, you better be prepared, those barbarians will make light work of you!",
+        "I've heard the King in the South hides in his castle, sorrounded by many men!",
+        "You need to build an army if you want to take on the men in the south, a knight can be bought.. for a price."
+    };
 
     public Knight(String FirstName, String LastName, int Age) {
         super(FirstName, LastName, Age);
@@ -149,5 +155,9 @@ public class Knight extends Villager {
     public void speakOccupation() {
         Random rand = new Random();
         System.out.println(occupationStrings[rand.nextInt(occupationStrings.length)]);
+    }
+    public void giveAdvice() {
+        Random rand = new Random();
+        System.out.println(adviceStrings[rand.nextInt(adviceStrings.length)]);
     }
 }

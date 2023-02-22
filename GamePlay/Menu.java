@@ -15,6 +15,8 @@ public class Menu {
     private Map currentGame;
     private List<Object> closeVillagers = new ArrayList<Object>();
     private List<Object> closeBuildings = new ArrayList<Object>();
+    private List<Villager> allies = new ArrayList<Villager>();
+    private List<Villager> enemies = new ArrayList<Villager>();
     private Player user;
 
     public Menu() {
@@ -121,93 +123,96 @@ public class Menu {
      * The main game play menu for exploring the map
      */
     public void gamePlayMenu() {
-        Scanner scanner = new Scanner(System.in);
-        int choice = 0;
-        boolean isVillagerOption = false;
-        boolean isBuildingOption = false;
-        boolean validCoice = false;
-        do {
-            System.out.println("\n###########################################");
-            System.out.println("#        PLEASE CHOOSE AN OPTION          #");
-            System.out.println("#-----------------------------------------#");
-            System.out.println("#  <3 = " + user.getHealth() + "%" + "      $ = " + user.getWallet() + "                   #");
-            System.out.println("#                                         #");
-            System.out.println("# 1: HELP ME                              #");
-            System.out.println("#                                         #");
-            System.out.println("# 2: MOVE NORTH                           #");
-            System.out.println("#                                         #");
-            System.out.println("# 3: MOVE EAST                            #");
-            System.out.println("#                                         #");
-            System.out.println("# 4: MOVE SOUTH                           #");
-            System.out.println("#                                         #");
-            System.out.println("# 5: MOVE WEST                            #");
-            System.out.println("#                                         #");
-            if (nearSomething(user.getLocation()[0], user.getLocation()[1])){
-                if (!closeBuildings.isEmpty() && !closeVillagers.isEmpty()){
-                    System.out.println("# 6: ENTER BUILDING                       #");
-                    System.out.println("#                                         #");
-                    System.out.println("# 7: TALK TO VILLAGER                     #");
-                    System.out.println("#                                         #");
+        if (!isExit()) {
+            Scanner scanner = new Scanner(System.in);
+            int choice = 0;
+            boolean isVillagerOption = false;
+            boolean isBuildingOption = false;
+            boolean validCoice = false;
+            do {
+                System.out.println("\n###########################################");
+                System.out.println("#        PLEASE CHOOSE AN OPTION          #");
+                System.out.println("#-----------------------------------------#");
+                System.out.println("#  <3 = " + user.getHealth() + "%" + "      $ = " + user.getWallet() + "                   #");
+                System.out.println("#                                         #");
+                System.out.println("# 1: HELP ME                              #");
+                System.out.println("#                                         #");
+                System.out.println("# 2: MOVE NORTH   ^                       #");
+                System.out.println("#                                         #");
+                System.out.println("# 3: MOVE EAST    >                       #");
+                System.out.println("#                                         #");
+                System.out.println("# 4: MOVE SOUTH   v                       #");
+                System.out.println("#                                         #");
+                System.out.println("# 5: MOVE WEST    <                       #");
+                System.out.println("#                                         #");
+                if (nearSomething(user.getLocation()[0], user.getLocation()[1])){
+                    if (!closeBuildings.isEmpty() && !closeVillagers.isEmpty()){
+                        System.out.println("# 6: ENTER BUILDING                       #");
+                        System.out.println("#                                         #");
+                        System.out.println("# 7: TALK TO VILLAGER                     #");
+                        System.out.println("#                                         #");
+                    }
+                    else if (!closeVillagers.isEmpty()) {
+                        System.out.println("# 7: TALK TO VILLAGER                     #");
+                        System.out.println("#                                         #");
+                    }
+                    else if (!closeBuildings.isEmpty()) {
+                        System.out.println("# 6: ENTER BUILDING                       #");
+                        System.out.println("#                                         #");
+                    }
                 }
-                else if (!closeVillagers.isEmpty()) {
-                    System.out.println("# 7: TALK TO VILLAGER                     #");
-                    System.out.println("#                                         #");
-                }
-                else if (!closeBuildings.isEmpty()) {
-                    System.out.println("# 6: ENTER BUILDING                       #");
-                    System.out.println("#                                         #");
-                }
-            }
-            System.out.println("# 0: EXIT                                 #");
-            System.out.println("#                                         #");
-            System.out.println("###########################################");
-            //System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
-            System.out.print("YOUR SELECTION: ");
-            if (scanner.hasNextInt()) {
-                choice = scanner.nextInt();
-                if (choice >=0 && choice < 8) {
-                    validCoice = true;
-                    //scanner.nextLine();
+                System.out.println("# 0: EXIT                                 #");
+                System.out.println("#                                         #");
+                System.out.println("###########################################");
+                //System.out.println("x-loc: " + user.getLocation()[0] + "   y-loc: " +user.getLocation()[1]);
+                System.out.print("YOUR SELECTION: ");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                    if (choice >=0 && choice < 8) {
+                        validCoice = true;
+                        //scanner.nextLine();
+                    }
+                    else {
+                        System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help menu\n");
+                        //scanner.nextLine();
+                    }
                 }
                 else {
-                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help menu\n");
+                    System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help main\n");
                     //scanner.nextLine();
                 }
-            }
-            else {
-                System.out.println("\nOops! please choose an integer that corresponds to a menu option i.e. 1 for help main\n");
-                //scanner.nextLine();
-            }
-            scanner.nextLine();
-        } while (!validCoice);
-        switch(choice) {
-            case 1: 
-                helpMe();
-                break;
-            case 2:
-                movePlayer("NORTH");
-                break;
-            case 3:
-                movePlayer("EAST");
-                break;
-            case 4:
-                movePlayer("SOUTH");
-                break;
-            case 5:
-                movePlayer("WEST");
-                break;
-            case 6:
-                break;
-            case 7:
-                sayHello();
-                interactWithVillager();
-                break;
-            case 0:
-                exitMenu();
-                break;
+                scanner.nextLine();
+            } while (!validCoice);
+            switch(choice) {
+                case 1: 
+                    helpMe();
+                    break;
+                case 2:
+                    movePlayer("NORTH");
+                    break;
+                case 3:
+                    movePlayer("EAST");
+                    break;
+                case 4:
+                    movePlayer("SOUTH");
+                    break;
+                case 5:
+                    movePlayer("WEST");
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    sayHello();
+                    interactWithVillager();
+                    break;
+                case 0:
+                    exitMenu();
+                    break;
+                }
+            scanner.close();
         }
-        scanner.close();
     }
+        
     /**
      * A function that checks the sorroundings of a player and updates closeVillagers
      * and closeBuildings list as applicable to enable player interaction with the world
@@ -491,7 +496,7 @@ public class Menu {
             System.out.println("#                                         #");
             System.out.println("# 1: ASK VILLAGER THEIR OCCUPATION        #");
             System.out.println("#                                         #");
-            System.out.println("# 2: ROB VILLAGER                         #");
+            System.out.println("# 2: ASK VILLAGER FOR ADVICE              #");
             System.out.println("#                                         #");
             System.out.println("# 3: FIGHT VILLAGER                       #");
             System.out.println("#                                         #");
@@ -522,10 +527,10 @@ public class Menu {
                 getOccupation();
                 break;
             case 2:
-                movePlayer("NORTH");
+                getSomeAdvice();
                 break;
             case 3:
-                movePlayer("EAST");
+                doFighting();
                 break;
             case 0:
                 gamePlayMenu();
@@ -557,6 +562,7 @@ public class Menu {
                 Knight k = (Knight) v;
                 k.speakOccupation();
             }
+            i++;
         }
         interactWithVillager();
     }
@@ -571,5 +577,58 @@ public class Menu {
             vill.sayHello();
             i++;
         }
+    }
+    /**
+     * A function to use the fight class and set oponenets
+     */
+    public void doFighting() {
+        // assign close villagers as enemies
+        for ( Object v : closeVillagers) {
+            Villager vill = (Villager) v;
+            enemies.add(vill);
+        }
+        //empty the close villagers list, as it will be repopulated with only living villagers post fight
+        closeVillagers.clear();
+        Fight fight = new Fight(user);
+        fight.setFriendlies(allies);
+        fight.setEnemies(enemies);
+        fight.fighting();
+        //fight.TFgoingOnHere();
+        if (fight.userAlive()) {
+            gamePlayMenu();
+        }
+        else {
+            System.out.println("It would seem you were bested! better luck next time");
+            setExit();
+            gamePlayMenu();
+        }
+    }
+    /**
+     * A function for returning advice from villagers
+     */
+    public void getSomeAdvice() {
+        System.out.println("\nYou ask for some advice.");
+        int i = 1;
+        for (Object v : closeVillagers) {
+            System.out.print("\nVILLAGER " + i + ": ");
+            if (v instanceof Archer) {
+                Archer vill = (Archer) v;
+                vill.giveAdvice();
+            }
+            else if (v instanceof Blacksmith) {
+                Blacksmith vill = (Blacksmith) v;
+                vill.giveAdvice();
+            }
+            else if (v instanceof Farmer) {
+                Farmer vill = (Farmer) v;
+                vill.giveAdvice();
+            }
+            else if (v instanceof Knight) {
+                Knight vill = (Knight) v;
+                vill.giveAdvice();
+            }
+            i++;
+        }
+        interactWithVillager();
     }
 }
