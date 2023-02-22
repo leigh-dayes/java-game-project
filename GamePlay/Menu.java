@@ -237,6 +237,11 @@ public class Menu {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x-1][y]);
             }
+            //building strings
+            else if (!currentGame.getWorld()[x-1][y].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+            }
         }
         
         //north east
@@ -248,6 +253,11 @@ public class Menu {
             else if (currentGame.getWorld()[x-1][y+1] instanceof Villager) {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x-1][y+1]);
+            }
+            //building strings
+            else if (!currentGame.getWorld()[x-1][y+1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y+1]);
             }
         }
 
@@ -261,6 +271,11 @@ public class Menu {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x][y+1]);
             }
+            //building strings
+            else if (!currentGame.getWorld()[x][y+1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x][y+1]);
+            }
         }
         
         //south east
@@ -272,6 +287,11 @@ public class Menu {
             else if (currentGame.getWorld()[x+1][y+1] instanceof Villager) {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x+1][y+1]);
+            }
+            //building strings
+            else if (!currentGame.getWorld()[x+1][y+1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x+1][y+1]);
             }
         }
         
@@ -285,6 +305,11 @@ public class Menu {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x+1][y]);
             }
+            //building strings
+            else if (!currentGame.getWorld()[x+1][y].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x+1][y]);
+            }
         }
         
         //south west
@@ -296,6 +321,11 @@ public class Menu {
             else if (currentGame.getWorld()[x+1][y-1] instanceof Villager) {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x+1][y-1]);
+            }
+            //building strings
+            else if (!currentGame.getWorld()[x+1][y-1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x+1][y-1]);
             }
         }
         
@@ -309,6 +339,11 @@ public class Menu {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x][y-1]);
             }
+            //building strings
+            else if (!currentGame.getWorld()[x][y-1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x][y-1]);
+            }
         }
         
         //north west
@@ -320,6 +355,11 @@ public class Menu {
             else if (currentGame.getWorld()[x-1][y-1] instanceof Villager) {
                 somethingClose = true;
                 closeVillagers.add(currentGame.getWorld()[x-1][y-1]);
+            }
+            //building strings
+            else if (!currentGame.getWorld()[x-1][y-1].equals(" . ")) {
+                somethingClose = true;
+                closeBuildings.add(currentGame.getWorld()[x-1][y-1]);
             }
         }
         
