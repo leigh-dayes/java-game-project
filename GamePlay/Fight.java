@@ -28,6 +28,7 @@ public class Fight {
         boolean myTurn = true;
         Random rand = new Random();
         boolean fightOver = false;
+        //int timer = 1;
         while(!fightOver) {
             //check to see if any enemies
             if (enemies.isEmpty()) {

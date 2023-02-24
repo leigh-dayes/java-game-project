@@ -105,7 +105,7 @@ public class Menu {
         this.user = user;
         // place player in user territory
         map.placePlayer(user, 0, Map.X/2, 0, Map.Y/2);
-        map.printMap();
+        //map.printMap();
         //scanner.close();
         System.out.println("\nYou awaken on the ground, your head hurts.. you cant remember a thing.. ");
     }
@@ -124,6 +124,7 @@ public class Menu {
      */
     public void gamePlayMenu() {
         if (!isExit()) {
+            currentGame.printMiniMap(user);
             Scanner scanner = new Scanner(System.in);
             int choice = 0;
             boolean isVillagerOption = false;
@@ -520,11 +521,10 @@ public class Menu {
                     }
                 break;
         }
-        currentGame.printMiniMap(user);
         gamePlayMenu();
     }
     public void interactWithVillager() {
-        
+        //currentGame.printMiniMap(user);
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean validCoice = false;
@@ -540,6 +540,8 @@ public class Menu {
             System.out.println("#                                         #");
             System.out.println("# 3: FIGHT VILLAGER                       #");
             System.out.println("#                                         #");
+            System.out.println("# 4: ASK VILLAGER TO BE YOUR ALLY         #");
+            System.out.println("#                                         #");
             System.out.println("# 0: EXIT                                 #");
             System.out.println("#                                         #");
             System.out.println("###########################################");
@@ -547,7 +549,7 @@ public class Menu {
             System.out.print("YOUR SELECTION: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                if (choice >=0 && choice < 4) {
+                if (choice >=0 && choice < 5) {
                     validCoice = true;
                     //scanner.nextLine();
                 }
@@ -571,6 +573,9 @@ public class Menu {
                 break;
             case 3:
                 doFighting();
+                break;
+            case 4:
+                recruitAllies();
                 break;
             case 0:
                 gamePlayMenu();
@@ -670,5 +675,53 @@ public class Menu {
             i++;
         }
         interactWithVillager();
+    }
+    /**
+     * A function to assign allies
+     */
+    public void recruitAllies() {
+        System.out.println("\nYou: Will you join me on my noble quest?");
+        int i = 1;
+        for (Object v : closeVillagers) {
+            Villager vill = (Villager) v;
+            //check if villager is an enemy or friendly
+            //enemy
+            if (currentGame.getTerritories().get(1).getVillagers().contains(vill)) {
+                System.out.println("\nVILLAGER " + i + ": You are my sworn enemy! i will not pledge alligence to you!");
+                i++;
+                enemies.add(vill);
+                doFighting();
+            }
+            else {
+                //freindly
+                // farmers and blacksmiths dont join
+                if (vill instanceof Farmer) {
+                    System.out.println("\nVILLAGER "+ i + ": I am a farmer not a warrior, I cannot join you.");
+                }
+                else if (vill instanceof Blacksmith) {
+                    System.out.println("\nVILLAGER "+ i + ": I am a blacksmith, I have no thirst for battle.");
+                }
+                else if (vill instanceof Archer) {
+                    //make sure not already an ally
+                    if (allies.contains(vill)) {
+                        System.out.println("\nVILLAGER " + i + ": Have you hit your head? we are already allies remember?."); 
+                    } else {
+                        System.out.println("\nVILLAGER " + i + ": You have my bow, our quest will be epic.");
+                        allies.add(vill);
+                    }
+                }
+                else {
+                    //knight
+                    if (allies.contains(vill)) {
+                        System.out.println("\nVILLAGER " + i + ": Have you hit your head? we are already allies remember?."); 
+                    } else {
+                        System.out.println("\nVILLAGER " + i + ": I will join you, they shall right songs about our great conquest.");
+                        allies.add(vill);
+                    }
+                }
+                i++;
+            }
+        }
+        gamePlayMenu();
     }
 }
