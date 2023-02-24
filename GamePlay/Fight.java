@@ -1,7 +1,6 @@
 package GamePlay;
 
 import java.util.Random;
-import java.util.Scanner;
 import Villagers.*;
 import java.util.List;
 import java.util.ArrayList;

@@ -152,15 +152,24 @@ public class Menu {
                         System.out.println("#                                         #");
                         System.out.println("# 7: TALK TO VILLAGER                     #");
                         System.out.println("#                                         #");
+                        isBuildingOption = true;
+                        isVillagerOption = true;
                     }
                     else if (!closeVillagers.isEmpty()) {
                         System.out.println("# 7: TALK TO VILLAGER                     #");
                         System.out.println("#                                         #");
+                        isVillagerOption = true;
+                        isBuildingOption = false;
                     }
                     else if (!closeBuildings.isEmpty()) {
                         System.out.println("# 6: ENTER BUILDING                       #");
                         System.out.println("#                                         #");
+                        isBuildingOption = true;
+                        isVillagerOption = false;
                     }
+                }else {
+                    isBuildingOption = false;
+                    isVillagerOption = false;
                 }
                 System.out.println("# 0: EXIT                                 #");
                 System.out.println("#                                         #");
@@ -201,10 +210,22 @@ public class Menu {
                     movePlayer("WEST");
                     break;
                 case 6:
+                    if (isBuildingOption) {
+                        enterBuilding();
+                    } else {
+                        System.out.println("\nYou need to be near a building to enter it!");
+                        gamePlayMenu();
+                    }
                     break;
                 case 7:
-                    sayHello();
-                    interactWithVillager();
+                    if(isVillagerOption) {
+                        sayHello();
+                        interactWithVillager();
+                    } else {
+                        System.out.println("\nYou need to be near a villager to talk to them!");
+                        gamePlayMenu();
+                    }
+                    
                     break;
                 case 0:
                     exitMenu();
