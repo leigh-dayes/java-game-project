@@ -268,7 +268,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x-1][y].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y]);
+                String str = (String) currentGame.getWorld()[x-1][y];
+                closeBuildings.add(bStrToBuilding(x-1,y,str));
             }
         }
         
@@ -285,7 +286,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x-1][y+1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y+1]);
+                String str = (String) currentGame.getWorld()[x-1][y+1];
+                closeBuildings.add(bStrToBuilding(x-1,y+1,str));
             }
         }
 
@@ -302,7 +304,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x][y+1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x][y+1]);
+                String str = (String) currentGame.getWorld()[x][y+1];
+                closeBuildings.add(bStrToBuilding(x,y+1,str));
             }
         }
         
@@ -319,7 +322,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x+1][y+1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x+1][y+1]);
+                String str = (String) currentGame.getWorld()[x+1][y+1];
+                closeBuildings.add(bStrToBuilding(x+1,y+1,str));
             }
         }
         
@@ -336,7 +340,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x+1][y].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x+1][y]);
+                String str = (String) currentGame.getWorld()[x+1][y];
+                closeBuildings.add(bStrToBuilding(x+1,y,str));
             }
         }
         
@@ -353,7 +358,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x+1][y-1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x+1][y-1]);
+                String str = (String) currentGame.getWorld()[x+1][y-1];
+                closeBuildings.add(bStrToBuilding(x+1,y-1,str));
             }
         }
         
@@ -370,7 +376,8 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x][y-1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x][y-1]);
+                String str = (String) currentGame.getWorld()[x][y-1];
+                closeBuildings.add(bStrToBuilding(x,y-1,str));
             }
         }
         
@@ -387,11 +394,52 @@ public class Menu {
             //building strings
             else if (!currentGame.getWorld()[x-1][y-1].equals(" . ")) {
                 somethingClose = true;
-                closeBuildings.add(currentGame.getWorld()[x-1][y-1]);
+                String str = (String) currentGame.getWorld()[x-1][y-1];
+                closeBuildings.add(bStrToBuilding(x-1,y-1,str));
             }
         }
         
         return somethingClose;
+    }
+    /**
+     * A function to detect the object that is represented by building strings
+     * 
+     * 
+     */
+    public Object bStrToBuilding(int x, int y, String str){
+        Object building = " . ";
+        // building object is always placed top left
+        // iterate up rows until top edge of building
+        boolean xfound = false;
+        boolean foundBuilding = false;
+        while(!xfound) {
+            //still going up
+            if(currentGame.getWorld()[x-1][y] == str) {
+                x = x-1;
+            }
+            //found building
+            else if (currentGame.getWorld()[x-1][y] instanceof Building) {
+                building = currentGame.getWorld()[x-1][y];
+                xfound = true;
+                foundBuilding = true;
+            }
+            else {
+                xfound = true;
+            }
+        }
+        while(!foundBuilding) {
+            // still going left
+            if(currentGame.getWorld()[x][y-1] == str) {
+                y = y-1;
+            }
+            //found building
+            else {
+                building = currentGame.getWorld()[x][y-1];
+                foundBuilding= true;
+            }
+
+        }
+        return building;
     }
     /**
      * A menu to help players understand the game
@@ -599,7 +647,7 @@ public class Menu {
                 getSomeAdvice();
                 break;
             case 3:
-                doFighting(false);
+                doFighting(false, false);
                 break;
             case 4:
                 recruitAllies();
@@ -653,7 +701,7 @@ public class Menu {
     /**
      * A function to use the fight class and set oponenets
      */
-    public void doFighting(boolean inBuilding) {
+    public void doFighting(boolean inBuilding, boolean king) {
         boolean inB = inBuilding;
         // assign close villagers as enemies
         for ( Object v : closeVillagers) {
@@ -673,7 +721,15 @@ public class Menu {
             }
             else {
                 //handle in building stuff, i.e. fight the king
-                inBuildingVictory();
+                if(king) {
+                    System.out.println("\nYou have assassinated the King!! and beat the game!!");
+                    System.out.println("##### WELL DONE ######");
+                    setExit();
+                    gamePlayMenu();
+                }
+                else {
+                    inBuildingVictory();
+                }
             }
         }
         else {
@@ -724,7 +780,7 @@ public class Menu {
                 System.out.println("\nVILLAGER " + i + ": You are my sworn enemy! i will not pledge alligence to you!");
                 i++;
                 enemies.add(vill);
-                doFighting(false);
+                doFighting(false, false);
             }
             else {
                 //freindly
@@ -770,10 +826,10 @@ public class Menu {
         //friendly buildings
         List<Building> fBuildings = currentGame.getTerritories().get(0).getBulidings();
         //enemy buildings
-        List<Building> eBuildings = currentGame.getTerritories().get(1).getBulidings();
-        for ( Object b : closeBuildings) {
-            Building building = (Building) b;
-            
+        //List<Building> eBuildings = currentGame.getTerritories().get(1).getBulidings();
+        for (int i = 0; i < closeBuildings.size(); i++) {
+            Building building = (Building) closeBuildings.get(i);
+            enemies.clear();
             //Archer Tower
             if (building instanceof ArcherTower) {
                 ArcherTower at = (ArcherTower) building;
@@ -792,7 +848,7 @@ public class Menu {
                     System.out.println("Hey! You're not supposed to be in here!!!");
                     enemies.add(archers.get(0));
                     enemies.add(archers.get(1));
-                    doFighting(true);
+                    doFighting(true, false);
                 }
             }
 
@@ -816,8 +872,62 @@ public class Menu {
                     for (Knight k : kingsKnights) {
                         enemies.add(k);
                     }
+                    //currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    doFighting(true, false);
+                }
+            }
+
+            //Blacksmith shop
+            else if (building instanceof BlackSmithShop) {
+                BlackSmithShop bs = (BlackSmithShop) building;
+                if(fBuildings.contains(building)) {
+                    bs.getBlacksmith().sayHello();
+                    bs.buyWeapon(user);
                     currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
-                    doFighting(true);
+                    gamePlayMenu();
+                }
+                //enemy
+                else {
+                    System.out.println("Hey! You're not supposed to be in here!!!");
+                    enemies.add(bs.getBlacksmith());
+                    //currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    doFighting(true, false);
+                }
+
+            }
+
+            // Farm
+            else if (building instanceof Farm) {
+                Farm f = (Farm) building;
+                if(fBuildings.contains(building)) {
+                    f.getFarmer().sayHello();
+                    f.doWork(user);
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    gamePlayMenu();
+                }
+                //enemy
+                else {
+                    System.out.println("\nYou've come to the wrong farm!!");
+                    enemies.add(f.getFarmer());
+                    doFighting(true, false);
+                }
+            }
+
+            // House
+            else {
+                House h = (House) building;
+                if(fBuildings.contains(building)){ 
+                    h.getResident().sayHello();
+                    System.out.println("\nI heard you can get work at the farm and use the moeny you earn to upgrade your weapon!");
+                    System.out.println("\nWell you best be on your way! Good Luck");
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    gamePlayMenu();
+                }
+                //enemy
+                else {
+                    System.out.println("\nYou've come to the wrong house!!");
+                    enemies.add(h.getResident());
+                    doFighting(true, false);
                 }
             }
         }
@@ -842,15 +952,25 @@ public class Menu {
             //enemy buildings, if defeated an enemy building owner get reward or fight the king
             else {
                 if (building instanceof ArcherTower) {
-                    System.out.println("\nYou have defeated an enemy archer tower!");
-                    System.out.println("You recieve $" + aBonus + " for your efforts!");
-                    user.incWallet(aBonus);
-                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
-                    gamePlayMenu();
+                    enemyBuildingDefeat("Archer Tower", aBonus);
                 }
                 else if (building instanceof BlackSmithShop) {
-                    System.out.println("\nYou have defeated an enemy Black Smith shop!");
-                    
+                    enemyBuildingDefeat("Black Smith Shop", bBonus);
+                }
+                else if (building instanceof Farm) {
+                    enemyBuildingDefeat("Farm", fBonus);
+                }
+                else if (building instanceof House) {
+                    enemyBuildingDefeat("House", hBonus);
+                }
+                else {
+                    //castle
+                    System.out.println("\nYou have defeated the Kings Gaurd!!");
+                    System.out.println("Time to finish what you started!!");
+                    enemies.clear();
+                    Castle c = (Castle) building;
+                    enemies.add(c.getKing());
+                    doFighting(true, true);
                 }
             }
         }

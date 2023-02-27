@@ -44,21 +44,21 @@ public class BlackSmithShop extends Building {
             System.out.println("#-----------------------------------------#");
             System.out.println("#  <3 = " + shopper.getHealth() + "%" + "      $ = " + cash + "                   #");
             System.out.println("#                                         #");
-            System.out.println("# 1: Buy Sword           $" + swordPrice + "                       #");
+            System.out.println("# 1: Buy Sword           $" + swordPrice + "              #");
             System.out.println("#                                         #");
-            System.out.println("# 2: Buy Mace            $" + macePrice + "                       #");
+            System.out.println("# 2: Buy Mace            $" + macePrice + "               #");
             System.out.println("#                                         #");
-            System.out.println("# 3: Buy Lance           $" + lancePrice + "                       #");
+            System.out.println("# 3: Buy Lance           $" + lancePrice + "              #");
             System.out.println("#                                         #");
-            System.out.println("# 4: Buy Bow             $" + bowPrice + "                      #");
+            System.out.println("# 4: Buy Bow             $" + bowPrice + "               #");
             System.out.println("#                                         #");
-            System.out.println("# 5: Buy Club            $" + clubPrice + "                      #");
+            System.out.println("# 5: Buy Club            $" + clubPrice + "               #");
             System.out.println("#                                         #");
-            System.out.println("# 6: Buy Dagger          $" + daggerPrice + "                       #");
+            System.out.println("# 6: Buy Dagger          $" + daggerPrice + "               #");
             System.out.println("#                                         #");
-            System.out.println("# 7: Buy Leather Armour  $" + leatherPrice + "                       #");
+            System.out.println("# 7: Buy Leather Armour  $" + leatherPrice + "              #");
             System.out.println("#                                         #");
-            System.out.println("# 8: Buy Steel Armour    $" + steelPrice + "                      #");
+            System.out.println("# 8: Buy Steel Armour    $" + steelPrice + "              #");
             System.out.println("#                                         #");
             System.out.println("# 0: EXIT                                 #");
             System.out.println("#                                         #");
@@ -102,7 +102,7 @@ public class BlackSmithShop extends Building {
                 }
                 break;
             case 3:
-                if (cash >= swordPrice) {
+                if (cash >= lancePrice) {
                     pruchaseConfirmation("a Lance", lancePrice, shopper, Weapons.Lance);
                 }
                 else {
@@ -110,7 +110,7 @@ public class BlackSmithShop extends Building {
                     buyWeapon(shopper);
                 }
             case 4:
-                if (cash >= swordPrice) {
+                if (cash >= bowPrice) {
                     pruchaseConfirmation("a Bow", bowPrice, shopper, Weapons.Bow);
                 }
                 else {
@@ -119,7 +119,7 @@ public class BlackSmithShop extends Building {
                 }
                 break;
             case 5:
-                if (cash >= swordPrice) {
+                if (cash >= clubPrice) {
                     pruchaseConfirmation("a Club", clubPrice, shopper, Weapons.Club);
                 }
                 else {
@@ -128,7 +128,7 @@ public class BlackSmithShop extends Building {
                 }
                 break;
             case 6:
-                if (cash >= swordPrice) {
+                if (cash >= daggerPrice) {
                     pruchaseConfirmation("a Dagger", daggerPrice, shopper, Weapons.Dagger);
                 }
                 else {
@@ -137,7 +137,7 @@ public class BlackSmithShop extends Building {
                 }
                 break;
             case 7:
-                if (cash >= swordPrice) {
+                if (cash >= leatherPrice) {
                     pruchaseConfirmation("Leather Armour", leatherPrice, shopper, Armour.leather);
                 }
                 else {
@@ -146,7 +146,7 @@ public class BlackSmithShop extends Building {
                 }
                 break;
             case 8:
-                if (cash >= swordPrice) {
+                if (cash >= steelPrice) {
                     pruchaseConfirmation("Steel Armour", steelPrice, shopper, Armour.steel);
                 }
                 else {
