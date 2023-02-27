@@ -37,4 +37,7 @@ public class House extends Building {
         villager.setWeapon(Weapons.Dagger);
         villager.setArmour(Armour.none);
     }
+    public Villager getResident() {
+        return villager;
+    }
 }

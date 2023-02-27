@@ -82,10 +82,10 @@ public class Fight {
                         int damage = attackDamage - defence;
                         if (damage > 0) {
                             allyDefender.decrementHealth(damage);
-                            System.out.println(attacker.getFirstName() + " strikes your ally" + allyDefender.getFirstName() + " causing " + damage + " damage");
-                            System.out.println(allyDefender.getFirstName() + " health is down to " + user.getHealth() + "%");
+                            System.out.println(attacker.getFirstName() + " strikes your ally " + allyDefender.getFirstName() + " causing " + damage + " damage");
+                            System.out.println(allyDefender.getFirstName() + " health is down to " + allyDefender.getHealth() + "%");
                             if(!allyDefender.isAlive()) {
-                                System.out.println(allyDefender + " has died in battle, his sacrifice will not be in vein!");
+                                System.out.println(allyDefender.getFirstName() + " has died in battle, his sacrifice will not be in vein!");
                                 friendlies.remove(allyDefender);
                             }
                         }
@@ -113,7 +113,7 @@ public class Fight {
         else {
             Random rand = new Random();
             attacker = friendlies.get(rand.nextInt(friendlies.size()));
-            attackMessage = "Your Ally " + attacker.getFirstName();
+            attackMessage = "Your ally, " + attacker.getFirstName();
         }
         if (accuracy == 0) {
             System.out.println(attackMessage + " have swung wildly and missed!");
