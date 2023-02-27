@@ -98,6 +98,9 @@ public abstract class Villager {
             if (health >= 0) {
                 alive = true;
             }
+            else {
+                alive = false;
+            }
         }
     }
     // greeting
