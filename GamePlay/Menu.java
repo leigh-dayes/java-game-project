@@ -18,6 +18,12 @@ public class Menu {
     private List<Villager> allies = new ArrayList<Villager>();
     private List<Villager> enemies = new ArrayList<Villager>();
     private Player user;
+    private int[] lastPlayerPosition = new int[2];
+    //bonuses for capturing buildings
+    private int aBonus = 40;
+    private int fBonus = 10;
+    private int bBonus = 25;
+    private int hBonus = 10;
 
     public Menu() {
         System.out.println("\n###### WELCOME TO MEDIEVAL ASSASSIN ######\n");
@@ -593,7 +599,7 @@ public class Menu {
                 getSomeAdvice();
                 break;
             case 3:
-                doFighting();
+                doFighting(false);
                 break;
             case 4:
                 recruitAllies();
@@ -647,7 +653,8 @@ public class Menu {
     /**
      * A function to use the fight class and set oponenets
      */
-    public void doFighting() {
+    public void doFighting(boolean inBuilding) {
+        boolean inB = inBuilding;
         // assign close villagers as enemies
         for ( Object v : closeVillagers) {
             Villager vill = (Villager) v;
@@ -659,9 +666,15 @@ public class Menu {
         fight.setFriendlies(allies);
         fight.setEnemies(enemies);
         fight.fighting();
-        //fight.TFgoingOnHere();
         if (fight.userAlive()) {
-            gamePlayMenu();
+            // if not in a building just return to where they were
+            if (!inB) {
+                gamePlayMenu();
+            }
+            else {
+                //handle in building stuff, i.e. fight the king
+                inBuildingVictory();
+            }
         }
         else {
             System.out.println("It would seem you were bested! better luck next time");
@@ -711,7 +724,7 @@ public class Menu {
                 System.out.println("\nVILLAGER " + i + ": You are my sworn enemy! i will not pledge alligence to you!");
                 i++;
                 enemies.add(vill);
-                doFighting();
+                doFighting(false);
             }
             else {
                 //freindly
@@ -743,6 +756,110 @@ public class Menu {
                 i++;
             }
         }
+        gamePlayMenu();
+    }
+    /**
+     * A function for entering buildings
+     */
+    public void enterBuilding() {
+        // remove player from map so they appear to be inside the building
+        lastPlayerPosition[0] = user.getLocation()[0];
+        lastPlayerPosition[1] = user.getLocation()[1];
+        currentGame.setPosition(user.getLocation()[0], user.getLocation()[1], " . ");
+        currentGame.printMiniMap(user);
+        //friendly buildings
+        List<Building> fBuildings = currentGame.getTerritories().get(0).getBulidings();
+        //enemy buildings
+        List<Building> eBuildings = currentGame.getTerritories().get(1).getBulidings();
+        for ( Object b : closeBuildings) {
+            Building building = (Building) b;
+            
+            //Archer Tower
+            if (building instanceof ArcherTower) {
+                ArcherTower at = (ArcherTower) building;
+                List<Archer> archers = at.getArchers();
+                //friendly
+                if (fBuildings.contains(building)) {
+                    archers.get(0).sayHello();
+                    archers.get(1).sayHello();
+                    System.out.println("\nWelcome to our Archer tower!");
+                    System.out.println("\nWe think its time you leave.. Goodbye");
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    gamePlayMenu();
+                }
+                else {
+                    //enemy 
+                    System.out.println("Hey! You're not supposed to be in here!!!");
+                    enemies.add(archers.get(0));
+                    enemies.add(archers.get(1));
+                    doFighting(true);
+                }
+            }
+
+            //Castle
+            else if (building instanceof Castle) {
+                Castle c = (Castle) building;
+                List<Knight> kingsKnights = c.getKingsKnights();
+                //friendly
+                if (fBuildings.contains(building)) {
+                    for (Knight k : kingsKnights) {
+                        k.sayHello();
+                    }
+                    System.out.println("\nWelcome to our grand Castle.. You have no business with the king.. please leave");
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    gamePlayMenu();
+                }
+                else {
+                    //enemy 
+                    System.out.println("Hey! You're not supposed to be in here!!!");
+                    System.out.println("\nThe Kings gaurd is made up of " + kingsKnights.size() + " brave knights!, you will need to defeat all of us to make it to our king!");
+                    for (Knight k : kingsKnights) {
+                        enemies.add(k);
+                    }
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    doFighting(true);
+                }
+            }
+        }
+
+    }
+    /**
+     * A function to display a menu inside a building
+     */
+    public void inBuildingVictory() {
+        // check to see what building we are in
+        for (Object b : closeBuildings) {
+            Building building = (Building) b;
+            //should only be in one building hopefully
+            //freindly.. should not have been fighting in freindly building at this stage
+            //friendly buildings
+            List<Building> fBuildings = currentGame.getTerritories().get(0).getBulidings();
+            if (fBuildings.contains(building)) {
+                System.out.println("\nYou should not have faught in this place.... ");
+                currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                gamePlayMenu();
+            }
+            //enemy buildings, if defeated an enemy building owner get reward or fight the king
+            else {
+                if (building instanceof ArcherTower) {
+                    System.out.println("\nYou have defeated an enemy archer tower!");
+                    System.out.println("You recieve $" + aBonus + " for your efforts!");
+                    user.incWallet(aBonus);
+                    currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
+                    gamePlayMenu();
+                }
+                else if (building instanceof BlackSmithShop) {
+                    System.out.println("\nYou have defeated an enemy Black Smith shop!");
+                    
+                }
+            }
+        }
+    }
+    public void enemyBuildingDefeat(String bName, int bonus) {
+        System.out.println("\nYou have defeated an enemy "+bName+" !");
+        System.out.println("You recieve $" + bonus + " for your efforts!");
+        user.incWallet(bonus);
+        currentGame.setPosition(lastPlayerPosition[0], lastPlayerPosition[1], user);
         gamePlayMenu();
     }
 }
